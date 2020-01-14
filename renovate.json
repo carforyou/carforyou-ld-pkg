@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges"
+  ],
+  "prConcurrentLimit": 5,
+  "reviewers": ["team:frontend"]
+}
+

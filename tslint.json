@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@carforyou/tslint-rules"
+  ]
+}

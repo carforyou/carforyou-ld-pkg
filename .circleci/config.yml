@@ -1,0 +1,116 @@
+version: 2.1
+
+commands:
+  notify_slack_failure:
+    steps:
+      - run:
+          name: Notify Slack of failure if on master
+          command: |
+            if [ "$CIRCLE_BRANCH" = "master" ]; then
+              curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":boom: ${CIRCLE_JOB} failed: ${CIRCLE_BUILD_URL}\"}" https://hooks.slack.com/services/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
+            fi
+          when: on_fail
+
+docker: &DOCKER_NODE
+  docker:
+    - image: circleci/node:10.16
+
+
+jobs:
+  install:
+    <<: *DOCKER_NODE
+    resource_class: small
+    steps:
+      - checkout
+      - restore_cache:
+          key: v3-npm-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run: npm ls
+      - save_cache:
+          key: v3-npm-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+      - notify_slack_failure
+
+  unit:
+    <<: *DOCKER_NODE
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          command: npm run test:unit -- --maxWorkers=4
+          no_output_timeout: 3m
+      - notify_slack_failure
+
+  lint:
+    <<: *DOCKER_NODE
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npm run lint
+      - notify_slack_failure
+
+  typecheck:
+    <<: *DOCKER_NODE
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          command: npm run typecheck
+          no_output_timeout: 1m
+      - notify_slack_failure
+
+  build:
+    <<: *DOCKER_NODE
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npm run build
+      - persist_to_workspace:
+            root: ~/
+            paths:
+              - project
+      - notify_slack_failure
+
+  release:
+    <<: *DOCKER_NODE
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npx semantic-release
+      - notify_slack_failure
+
+workflows:
+  version: 2
+  test_and_release:
+    jobs:
+      - install
+      - unit:
+          requires:
+            - install
+      - lint:
+          requires:
+            - install
+      - typecheck:
+          requires:
+            - install
+      - build:
+          requires:
+            - unit
+            - lint
+            - typecheck
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+
