@@ -12,7 +12,7 @@ if [ ! -d $PROJECT_PATH ]; then
   echo "Looks like no project exists under `$PROJECT_PATH`. Aborting..."
 fi
 
-echo "Linking package \`$PACKAGE_PATH\` to project \`$PROJECT_PATH\`"
+echo "Linking package ${PACKAGE_PATH} to project ${PROJECT_PATH}"
 echo "> Building package"
 npm run build
 

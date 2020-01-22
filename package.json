@@ -1,16 +1,14 @@
 {
   "name": "@carforyou/ld",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "CAR FOR YOU LaunchDarkly",
   "scripts": {
     "version": "npm run build",
     "build": "pika build",
-    "release": "np --any-branch --contents pkg/",
     "lint": "tslint --project tsconfig.lint.json",
     "format": "tslint --project tsconfig.lint.json --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:debug": "node --inspect-brk --inspect=127.0.0.1:9229 ./node_modules/jest/bin/jest.js --runInBand",
     "link": "./bin/link.sh"
   },
   "repository": {
@@ -35,6 +33,7 @@
     "@pika/plugin-build-web": "^0.8.1",
     "@pika/plugin-ts-standard-pkg": "^0.8.1",
     "@types/jest": "^24.0.25",
+    "react": "^16.8.6",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "semantic-release": "^15.14.0",

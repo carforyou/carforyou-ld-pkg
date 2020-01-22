@@ -6,7 +6,7 @@ import {
   LDFlagChangeset,
   initialize as ldClientInitialize
 } from "launchdarkly-js-client-sdk"
-import { User } from "../types/user"
+import { LDUser } from "../types/ldUser"
 
 import { camelCaseKeys } from "../lib/utils"
 
@@ -24,12 +24,12 @@ const { Provider, Consumer } = context
 interface ProviderProps {
   flags?: LDFlagSet
   ldClientId: string
-  ldUser: User
+  ldUser: LDUser
 }
 
 const initLDClient = (
   clientSideID: string,
-  ldUser: User,
+  ldUser: LDUser,
   flags: LDFlagSet
 ): LDClient => {
   return ldClientInitialize(clientSideID, ldUser, {

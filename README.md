@@ -7,6 +7,20 @@
 npm install @carforyou/ld
 ```
 
+Example
+
+```
+import { Provider } from "@carforyou/ld"
+
+...
+
+<Provider ldClientId={LAUNCH_DARKLY_ID} ldUser={ldUser} flags={flags}>
+    <Components />
+</Provider>
+
+```
+
+
 ## Development
 ```
 npm run build

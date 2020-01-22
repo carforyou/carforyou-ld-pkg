@@ -1,4 +1,4 @@
-export interface User {
+export interface LDUser {
   key: string
   email?: string
   anonymous?: boolean
