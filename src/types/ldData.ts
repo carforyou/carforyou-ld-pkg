@@ -1,6 +1,6 @@
 import { LDUser } from "./ldUser"
 
-export interface Data {
+export interface LDData {
   user: LDUser
   allFlags: { [key: string]: string }
 }

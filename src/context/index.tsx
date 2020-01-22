@@ -31,14 +31,10 @@ const initLDClient = (
   clientSideID: string,
   ldUser: LDUser,
   flags: LDFlagSet
-): LDClient => {
-  return ldClientInitialize(clientSideID, ldUser, {
-    bootstrap: flags
-  })
-}
+): LDClient => ldClientInitialize(clientSideID, ldUser, { bootstrap: flags })
 
 const ProviderWithState: FC<ProviderProps> = ({
-  flags = {},
+  flags,
   ldClientId,
   ldUser,
   children
@@ -46,17 +42,12 @@ const ProviderWithState: FC<ProviderProps> = ({
   const [state, setState] = useState<LDContext>({ flags, ldClient: undefined })
 
   useEffect(() => {
-    ;(async () => {
-      if (ldUser) {
-        const ldClient = await initLDClient(ldClientId, ldUser, flags)
-        setState({ ldClient, flags: camelCaseKeys(flags) })
-      }
-    })()
-  }, [ldClientId, ldUser.email])
+    if (ldUser) {
+      const ldClient = initLDClient(ldClientId, ldUser, flags)
+      ldClient.on("initialized", () => {
+        setState({ ldClient, flags: camelCaseKeys(ldClient.allFlags()) })
+      })
 
-  useEffect(() => {
-    const { ldClient } = state
-    if (ldClient) {
       ldClient.on("change", (changes: LDFlagChangeset) => {
         const flattened: LDFlagSet = {}
         for (const key in changes) {
@@ -68,12 +59,11 @@ const ProviderWithState: FC<ProviderProps> = ({
 
         const mergedFlags = camelCaseKeys({ ...state.flags, ...flattened })
         setState({
-          flags: mergedFlags,
-          ldClient
+          flags: mergedFlags
         })
       })
     }
-  }, [state.ldClient])
+  }, [ldClientId, ldUser.email])
   return <Provider value={state}>{children}</Provider>
 }
 
