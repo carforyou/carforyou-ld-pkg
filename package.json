@@ -1,23 +1,33 @@
 {
-  "name": "@carforyou/example",
-  "version": "0.0.0",
-  "description": "Example package",
+  "name": "@carforyou/ld",
+  "version": "1.0.0",
+  "description": "CAR FOR YOU LaunchDarkly",
   "scripts": {
     "version": "npm run build",
     "build": "pika build",
+    "release": "np --any-branch --contents pkg/",
     "lint": "tslint --project tsconfig.lint.json",
     "format": "tslint --project tsconfig.lint.json --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:debug": "node --inspect-brk --inspect=127.0.0.1:9229 ./node_modules/jest/bin/jest.js --runInBand"
+    "test:debug": "node --inspect-brk --inspect=127.0.0.1:9229 ./node_modules/jest/bin/jest.js --runInBand",
+    "link": "./bin/link.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carforyou/carforyou-example-pkg.git"
+    "url": "git+https://github.com/carforyou/carforyou-ld-pkg.git"
   },
   "author": "CAR FOR YOU",
   "license": "MIT",
-  "homepage": "https://github.com/carforyou/example-pkg#readme",
+  "homepage": "https://github.com/carforyou/ld-pkg#readme",
+  "peerDependencies": {
+    "react": ">=16.0.0"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^3.3.1",
+    "launchdarkly-js-client-sdk": "^2.16.0",
+    "lodash.camelcase": "^4.3.0"
+  },
   "devDependencies": {
     "@carforyou/tslint-rules": "^1.1.0",
     "@pika/pack": "^0.5.0",
