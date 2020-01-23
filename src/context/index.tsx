@@ -44,9 +44,11 @@ const ProviderWithState: FC<ProviderProps> = ({
   useEffect(() => {
     if (ldUser) {
       const ldClient = initLDClient(ldClientId, ldUser, flags)
-      ldClient.on("initialized", () => {
-        setState({ ldClient, flags: camelCaseKeys(ldClient.allFlags()) })
-      })
+      if (!flags) {
+        ldClient.on("initialized", () => {
+          setState({ ldClient, flags: camelCaseKeys(ldClient.allFlags()) })
+        })
+      }
 
       ldClient.on("change", (changes: LDFlagChangeset) => {
         const flattened: LDFlagSet = {}
