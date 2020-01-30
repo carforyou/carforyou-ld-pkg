@@ -20,7 +20,6 @@ import { Provider } from "@carforyou/ld"
 
 ```
 
-
 ## Development
 ```
 npm run build
