@@ -31,7 +31,11 @@ const initLDClient = (
   clientSideID: string,
   ldUser: LDUser,
   flags: LDFlagSet
-): LDClient => ldClientInitialize(clientSideID, ldUser, { bootstrap: flags })
+): LDClient => {
+  return flags
+    ? ldClientInitialize(clientSideID, ldUser, { bootstrap: flags })
+    : ldClientInitialize(clientSideID, ldUser)
+}
 
 const ProviderWithState: FC<ProviderProps> = ({
   flags,
@@ -46,7 +50,7 @@ const ProviderWithState: FC<ProviderProps> = ({
       const ldClient = initLDClient(ldClientId, ldUser, flags)
       if (!flags) {
         ldClient.on("initialized", () => {
-          setState({ ldClient, flags: camelCaseKeys(ldClient.allFlags()) })
+          setState({ ldClient, flags: ldClient.allFlags() })
         })
       }
 
@@ -59,14 +63,18 @@ const ProviderWithState: FC<ProviderProps> = ({
           }
         }
 
-        const mergedFlags = camelCaseKeys({ ...state.flags, ...flattened })
+        const mergedFlags = { ...state.flags, ...flattened }
         setState({
           flags: mergedFlags
         })
       })
     }
   }, [ldClientId, ldUser.email])
-  return <Provider value={state}>{children}</Provider>
+  return (
+    <Provider value={{ ...state, flags: camelCaseKeys(state.flags) }}>
+      {children}
+    </Provider>
+  )
 }
 
 export { Consumer, ProviderWithState as Provider }
