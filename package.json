@@ -56,8 +56,5 @@
         "@pika/plugin-build-node"
       ]
     ]
-  },
-  "release": {
-    "pkgRoot": "pkg"
   }
 }
