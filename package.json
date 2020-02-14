@@ -36,7 +36,7 @@
     "react": "^16.8.6",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
-    "semantic-release": "^15.14.0",
+    "semantic-release": "^17.0.3",
     "ts-jest": "^24.3.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4"
@@ -56,8 +56,5 @@
         "@pika/plugin-build-node"
       ]
     ]
-  },
-  "release": {
-    "pkgRoot": "pkg"
   }
 }

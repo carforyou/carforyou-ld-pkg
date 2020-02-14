@@ -7,13 +7,13 @@ commands:
           name: Notify Slack of failure if on master
           command: |
             if [ "$CIRCLE_BRANCH" = "master" ]; then
-              curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":boom: ${CIRCLE_JOB} failed: ${CIRCLE_BUILD_URL}\"}" https://hooks.slack.com/services/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
+              curl -X POST -H 'Content-type: application/json' --data "{\"text\":\":boom: ${CIRCLE_JOB} failed: ${CIRCLE_BUILD_URL}\"}" https://hooks.slack.com/services/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
             fi
           when: on_fail
 
 docker: &DOCKER_NODE
   docker:
-    - image: circleci/node:10.16
+    - image: circleci/node:10.19
 
 jobs:
   install:
@@ -64,7 +64,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project
+            - project/pkg
       - notify_slack_failure
 
   release:
@@ -73,6 +73,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: npx semantic-release
+      - notify_slack_failure
+
+  pre_release:
+    <<: *DOCKER_NODE
+    steps:
+      - attach_workspace:
+          at: ~/
+      # manually set PR shell variables to empty to build pull request
+      - run: CI_PULL_REQUEST= CIRCLE_PULL_REQUEST= npx semantic-release
       - notify_slack_failure
 
 workflows:
@@ -92,7 +101,18 @@ workflows:
       - release:
           requires:
             - build
+            - lint
+            - typecheck
           filters:
             branches:
               only:
+                - master
+      - pre_release:
+          requires:
+            - build
+            - lint
+            - typecheck
+          filters:
+            branches:
+              ignore:
                 - master
