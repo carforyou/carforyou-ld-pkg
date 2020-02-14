@@ -13,7 +13,7 @@ commands:
 
 docker: &DOCKER_NODE
   docker:
-    - image: circleci/node:10.16
+    - image: circleci/node:10.19
 
 jobs:
   install:
