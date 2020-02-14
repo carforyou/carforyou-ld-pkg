@@ -64,7 +64,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project
+            - project/pkg
       - notify_slack_failure
 
   release:
@@ -73,6 +73,15 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: npx semantic-release
+      - notify_slack_failure
+
+  pre_release:
+    <<: *DOCKER_NODE
+    steps:
+      - attach_workspace:
+          at: ~/
+      # manually set PR shell variables to empty to build pull request
+      - run: CI_PULL_REQUEST= CIRCLE_PULL_REQUEST= npx semantic-release
       - notify_slack_failure
 
 workflows:
@@ -92,7 +101,18 @@ workflows:
       - release:
           requires:
             - build
+            - lint
+            - typecheck
           filters:
             branches:
               only:
+                - master
+      - pre_release:
+          requires:
+            - build
+            - lint
+            - typecheck
+          filters:
+            branches:
+              exclude:
                 - master
