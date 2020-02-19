@@ -65,7 +65,8 @@ const ProviderWithState: FC<ProviderProps> = ({
 
         const mergedFlags = { ...state.flags, ...flattened }
         setState({
-          flags: mergedFlags
+          flags: mergedFlags,
+          ldClient
         })
       })
     }
