@@ -48,11 +48,13 @@ const ProviderWithState: FC<ProviderProps> = ({
   useEffect(() => {
     if (ldUser) {
       const ldClient = initLDClient(ldClientId, ldUser, flags)
-      if (!flags) {
-        ldClient.on("initialized", () => {
+      ldClient.on("initialized", () => {
+        if (!flags) {
           setState({ ldClient, flags: ldClient.allFlags() })
-        })
-      }
+        } else {
+          setState({ ldClient })
+        }
+      })
 
       ldClient.on("change", (changes: LDFlagChangeset) => {
         const flattened: LDFlagSet = {}
@@ -65,8 +67,7 @@ const ProviderWithState: FC<ProviderProps> = ({
 
         const mergedFlags = { ...state.flags, ...flattened }
         setState({
-          flags: mergedFlags,
-          ldClient
+          flags: mergedFlags
         })
       })
     }
