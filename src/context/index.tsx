@@ -49,11 +49,7 @@ const ProviderWithState: FC<ProviderProps> = ({
     if (ldUser) {
       const ldClient = initLDClient(ldClientId, ldUser, flags)
       ldClient.on("initialized", () => {
-        if (!flags) {
-          setState({ ldClient, flags: ldClient.allFlags() })
-        } else {
-          setState({ ldClient })
-        }
+        setState({ ldClient, flags: ldClient.allFlags() })
       })
 
       ldClient.on("change", (changes: LDFlagChangeset) => {
