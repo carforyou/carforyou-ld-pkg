@@ -54,11 +54,13 @@ const ProviderWithState: FC<ProviderProps> = ({
     }
   }, [ldClientId, ldUser.email])
 
+  const allFlags = ldClient ? ldClient.allFlags() : flags
+
   return (
     <Provider
       value={{
         ldClient,
-        flags: ldClient ? camelCaseKeys(ldClient.allFlags()) : flags
+        flags: camelCaseKeys(allFlags)
       }}
     >
       {children}
