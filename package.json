@@ -9,7 +9,7 @@
     "format": "tslint --project tsconfig.lint.json --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "link": "./bin/link.sh"
+    "link": "sh ./bin/link.sh"
   },
   "repository": {
     "type": "git",
