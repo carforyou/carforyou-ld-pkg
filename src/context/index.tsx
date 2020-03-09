@@ -68,7 +68,7 @@ const ProviderWithState: FC<ProviderProps> = ({
         })
       })
     }
-  }, [ldClientId, ldUser.email])
+  }, [ldClientId, ldUser.email, ldUser.key])
   return (
     <Provider value={{ ...state, flags: camelCaseKeys(state.flags) }}>
       {children}
