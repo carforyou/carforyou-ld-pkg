@@ -52,7 +52,7 @@ const ProviderWithState: FC<ProviderProps> = ({
         setLdClient(client)
       })
     }
-  }, [ldClientId, ldUser.email])
+  }, [ldClientId, ldUser])
 
   const allFlags = ldClient ? ldClient.allFlags() : flags
 
