@@ -27,7 +27,7 @@
     "lodash.camelcase": "^4.3.0"
   },
   "devDependencies": {
-    "@carforyou/tslint-rules": "^1.1.0",
+    "@carforyou/tslint-rules": "^3.0.0",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.8.1",
     "@pika/plugin-build-web": "^0.8.1",
@@ -35,7 +35,7 @@
     "@types/jest": "^24.0.25",
     "react": "^16.8.6",
     "jest": "^24.9.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "semantic-release": "^17.0.3",
     "ts-jest": "^24.3.0",
     "tslint": "^5.20.1",
