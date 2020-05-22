@@ -27,20 +27,16 @@
     "lodash.camelcase": "^4.3.0"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "^1.1.0-initial-rules-dfdd23385da291dde2e6627059306a03b6713030.1",
+    "@carforyou/eslint-config": "^1.1.0-initial-rules-e5696a2396ab8be5b23db3d5a9dac62f7ba98e51.2",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.0",
     "@pika/plugin-build-web": "^0.9.0",
     "@pika/plugin-ts-standard-pkg": "^0.9.0",
     "@types/jest": "^25.0.0",
-    "eslint": "6.8.0",
-    "eslint-plugin-prettier": "^3.1.3",
     "jest": "^24.9.0",
-    "prettier": "^2.0.5",
     "react": "^16.8.6",
     "semantic-release": "^17.0.3",
     "ts-jest": "^24.3.0",
-    "tslint": "6.1.2",
     "typescript": "^3.7.4"
   },
   "@pika/pack": {
