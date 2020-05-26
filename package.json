@@ -27,7 +27,7 @@
     "lodash.camelcase": "^4.3.0"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "^1.1.0-initial-rules-e5696a2396ab8be5b23db3d5a9dac62f7ba98e51.2",
+    "@carforyou/eslint-config": "^1.1.0",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.0",
     "@pika/plugin-build-web": "^0.9.0",
