@@ -1,9 +1,7 @@
 import React, { FC, createContext, useState, useEffect } from "react"
-import camelCase from "lodash.camelcase"
 import {
   LDClient,
   LDFlagSet,
-  LDFlagChangeset,
   initialize as ldClientInitialize,
 } from "launchdarkly-js-client-sdk"
 import { LDUser } from "../types/ldUser"
