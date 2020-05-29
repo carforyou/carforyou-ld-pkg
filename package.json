@@ -36,7 +36,6 @@
     "jest": "^26.0.0",
     "react": "^16.8.6",
     "semantic-release": "^17.0.3",
-    "ts-jest": "^24.3.0",
     "typescript": "^3.7.4"
   },
   "@pika/pack": {
