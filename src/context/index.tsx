@@ -1,10 +1,8 @@
 import React, { FC, createContext, useState, useEffect } from "react"
-import camelCase from "lodash.camelcase"
 import {
   LDClient,
   LDFlagSet,
-  LDFlagChangeset,
-  initialize as ldClientInitialize
+  initialize as ldClientInitialize,
 } from "launchdarkly-js-client-sdk"
 import { LDUser } from "../types/ldUser"
 
@@ -17,7 +15,7 @@ export interface LDContext {
 
 export const context = createContext<LDContext>({
   flags: {},
-  ldClient: undefined
+  ldClient: undefined,
 })
 const { Provider, Consumer } = context
 
@@ -41,7 +39,7 @@ const ProviderWithState: FC<ProviderProps> = ({
   flags,
   ldClientId,
   ldUser,
-  children
+  children,
 }) => {
   const [ldClient, setLdClient] = useState<LDContext>()
 
@@ -52,7 +50,7 @@ const ProviderWithState: FC<ProviderProps> = ({
         setLdClient(client)
       })
     }
-  }, [ldClientId, ldUser.email])
+  }, [ldClientId, ldUser?.key])
 
   const allFlags = ldClient ? ldClient.allFlags() : flags
 
@@ -60,7 +58,7 @@ const ProviderWithState: FC<ProviderProps> = ({
     <Provider
       value={{
         ldClient,
-        flags: camelCaseKeys(allFlags)
+        flags: camelCaseKeys(allFlags),
       }}
     >
       {children}
