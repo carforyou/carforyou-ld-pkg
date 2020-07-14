@@ -52,18 +52,7 @@ const ProviderWithState: FC<ProviderProps> = ({
     }
   }, [ldClientId, ldUser?.key])
 
-  const allFlags = ldClient ? ldClient.allFlags() : flags
-
-  return (
-    <Provider
-      value={{
-        ldClient,
-        flags: camelCaseKeys(allFlags),
-      }}
-    >
-      {children}
-    </Provider>
-  )
+  return <Provider value={{ ldClient, flags }}>{children}</Provider>
 }
 
 export { Consumer, ProviderWithState as Provider }
