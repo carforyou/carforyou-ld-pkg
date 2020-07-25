@@ -13,8 +13,8 @@ export function withLD<P>(
 ) {
   const withConsumer = (props: P) => (
     <LDContext.Consumer>
-      {({ flags, visitorId }: Context) => {
-        return <WrappedComponent flags={flags} visitorId={visitorId} {...props} />
+      {(contextProps: Context) => {
+        return <WrappedComponent {...contextProps} {...props} />
       }}
     </LDContext.Consumer>
   )

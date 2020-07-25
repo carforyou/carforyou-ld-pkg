@@ -7,7 +7,10 @@ const createLDClient = async (sdkKey): Promise<LDClient> => {
   return ldClient.waitForInitialization()
 }
 
-const getLDClient = async (app: Application, sdkKey: string): Promise<LDClient> => {
+const getLDClient = async (
+  app: Application,
+  sdkKey: string
+): Promise<LDClient> => {
   const existingLDClient = app.get("LDClient")
   if (existingLDClient) {
     return existingLDClient
@@ -50,11 +53,9 @@ const getVisitorId = (cookie) => {
   return result ? result.groups.visitorId : uuid()
 }
 
-const getLDRequestHandler = sdkKey => {
+const getLDRequestHandler = (sdkKey) => {
   return async (req, res, next) => {
     const { app, url, query, headers } = req
-    // todo: const { route: nextApplicationRoute } = routes.match(url)
-
     if (!sdkKey) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -63,18 +64,18 @@ const getLDRequestHandler = sdkKey => {
       return next()
     }
 
-    if ([/^\/_next/, /^\/static/].find(matcher => url.match(matcher))) {
+    if ([/^\/_next/, /^\/static/].find((matcher) => url.match(matcher))) {
       return next()
     }
 
     // load flag data for the current visitor from launch darkly api
     const ldClient = await getLDClient(app, sdkKey)
     const visitorId =
-      query.visitorId ||
-      (isBot(headers) ? "bot" : getVisitorId(headers.cookie))
+      query.visitorId || (isBot(headers) ? "bot" : getVisitorId(headers.cookie))
 
-    const user = { key: visitorId, anonymous: true }
-    const allFlags = await ldClient.allFlagsState(user, { clientSideOnly: true })
+    const user = { key: visitorId, anonymous: true } // todo, don't hardcode this
+    const allFlags = await ldClient.allFlagsState(user)
+
     const data = {
       user,
       allFlags: allFlags.toJSON(),
@@ -82,6 +83,7 @@ const getLDRequestHandler = sdkKey => {
 
     req.ldData = data
 
+    // todo: move to project
     res.cookie("cfyuuid4", `${visitorId}cfyuuid4`, {
       maxAge: 2592000000, // 30 days
       httpOnly: false,
