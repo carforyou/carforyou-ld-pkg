@@ -1,6 +1,7 @@
-import { uuid } from "uuidv4"
 import LaunchDarkly, { LDClient } from "launchdarkly-node-server-sdk"
-import { Application } from "express"
+import { Application, Request, Response } from "express"
+
+import { LDUser } from "./types/ldUser"
 
 const createLDClient = async (sdkKey): Promise<LDClient> => {
   const ldClient = LaunchDarkly.init(sdkKey)
@@ -21,7 +22,7 @@ const getLDClient = async (
   return newLDClient
 }
 
-const isBot = (headers) => {
+const matchesBotUserAgent = (headers) => {
   const botList = [
     "GrapeshotCrawler",
     "bingbot",
@@ -46,16 +47,20 @@ const isBot = (headers) => {
   return true
 }
 
-// todo: allow to pass visitorid / user key from the app
-const getVisitorId = (cookie) => {
-  const regex = /cfyuuid4=(?<visitorId>.*)cfyuuid4;/
-  const result = regex.exec(cookie)
-  return result ? result.groups.visitorId : uuid()
-}
+type GetLDUser = ({
+  req,
+  res,
+  isBot,
+}: {
+  req: Request
+  res: Response
+  isBot: boolean
+}) => LDUser
 
-const getLDRequestHandler = (sdkKey) => {
+const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
   return async (req, res, next) => {
-    const { app, url, query, headers } = req
+    const { app, url, headers } = req
+
     if (!sdkKey) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -68,26 +73,15 @@ const getLDRequestHandler = (sdkKey) => {
       return next()
     }
 
-    // load flag data for the current visitor from launch darkly api
+    const isBot = matchesBotUserAgent(headers)
+    const user = getLDUser({ req, res, isBot })
     const ldClient = await getLDClient(app, sdkKey)
-    const visitorId =
-      query.visitorId || (isBot(headers) ? "bot" : getVisitorId(headers.cookie))
-
-    const user = { key: visitorId, anonymous: true } // todo, don't hardcode this
     const allFlags = await ldClient.allFlagsState(user)
 
-    const data = {
+    req.ldData = {
       user,
       allFlags: allFlags.toJSON(),
     }
-
-    req.ldData = data
-
-    // todo: move to project
-    res.cookie("cfyuuid4", `${visitorId}cfyuuid4`, {
-      maxAge: 2592000000, // 30 days
-      httpOnly: false,
-    })
 
     next()
   }

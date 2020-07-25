@@ -14,7 +14,9 @@ Include the middleware to fetch flags server-side
 ```
 import { ldMiddleware }
 
-const ldRequestHandler = ldMiddleware(LAUNCH_DARKLY_SDK_KEY)
+const getLDUser = () => ({ key: "example", anonymous: false })
+const ldRequestHandler = ldMiddleware(LAUNCH_DARKLY_SDK_KEY, getLDUser)
+
 const server = express()
 server.use(ldRequestHandler).listen()
 ```
