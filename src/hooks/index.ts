@@ -1,14 +1,16 @@
 import { useContext } from "react"
-import { context } from "../context/index"
+import { LDContext } from "../context/index"
 
-export const useLDClient = () => {
-  const { ldClient } = useContext(context)
+// export const useLDClient = () => {
+//   const { ldClient } = useContext(LDContext)
 
-  return ldClient
-}
+//   return ldClient
+// }
 
 export const useFlags = () => {
-  const { flags } = useContext(context)
+  const ctx = useContext(LDContext)
+  console.log("ctx useflags", ctx)
+  const { flags } = ctx
 
   return flags
 }

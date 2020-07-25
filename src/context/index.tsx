@@ -1,4 +1,4 @@
-import React, { FC, createContext, useState, useEffect } from "react"
+import React, { ReactNode, FC, createContext, useState, useEffect, useMemo } from "react"
 import {
   LDClient,
   LDFlagSet,
@@ -8,62 +8,78 @@ import { LDUser } from "../types/ldUser"
 
 import { camelCaseKeys } from "../lib/utils"
 
-export interface LDContext {
-  flags: LDFlagSet
-  ldClient?: LDClient
+interface Props {
+  initialLDData: LDData
+  children: ReactNode
 }
 
-export const context = createContext<LDContext>({
-  flags: {},
-  ldClient: undefined,
-})
-const { Provider, Consumer } = context
+export interface LDData {
+  visitorId: string
+  user: LDUser
+}
 
-interface ProviderProps {
+export interface Context {
   flags?: LDFlagSet
-  ldClientId: string
-  ldUser: LDUser
+  visitorId?: string
 }
 
-const initLDClient = (
-  clientSideID: string,
-  ldUser: LDUser,
-  flags: LDFlagSet
-): LDClient => {
-  return flags
-    ? ldClientInitialize(clientSideID, ldUser, { bootstrap: flags })
-    : ldClientInitialize(clientSideID, ldUser)
-}
+const LDContext = createContext<Context>()
 
-const ProviderWithState: FC<ProviderProps> = ({
-  flags,
-  ldClientId,
-  ldUser,
-  children,
-}) => {
-  const [ldClient, setLdClient] = useState<LDContext>()
+const LDProvider: FC<Props> = ({ initialLDData, children }) => {
+  const ldData = useMemo(() => initialLDData, []) // persists the data initialized server-side on the client
+  console.log("provider", {initialLDData, ldData})
 
-  useEffect(() => {
-    if (ldUser) {
-      const client = initLDClient(ldClientId, ldUser, flags)
-      client.on("initialized", () => {
-        setLdClient(client)
-      })
-    }
-  }, [ldClientId, ldUser?.key])
-
-  const allFlags = ldClient ? ldClient.allFlags() : flags
+  const flags = camelCaseKeys(ldData.allFlags)
+  const visitorId = ldData.user?.key
 
   return (
-    <Provider
-      value={{
-        ldClient,
-        flags: camelCaseKeys(allFlags),
-      }}
-    >
+    <LDContext.Provider value={{ flags, visitorId }}>
       {children}
-    </Provider>
+    </LDContext.Provider>
   )
 }
 
-export { Consumer, ProviderWithState as Provider }
+export { LDContext, LDProvider }
+
+// const initLDClient = (
+//   clientSideID: string,
+//   user: LDUser,
+//   flags: LDFlagSet
+// ): LDClient => {
+//   return flags
+//     ? ldClientInitialize(clientSideID, user, { bootstrap: flags })
+//     : ldClientInitialize(clientSideID, user)
+// }
+
+// const ProviderWithState: FC<ProviderProps> = ({
+//   ldClientId,
+//   initialLDData,
+//   children,
+// }) => {
+//   const [ldClient, setLdClient] = useState<LDContext>()
+//   const ldData = useMemo(() => initialLDData, []) // persists the data initialized server-side on the client
+//   console.log("provider", {initialLDData, ldData})
+
+//   // if (ldData) {
+//   //   const client = initLDClient(ldClientId, user, flags)
+//   //   client.on("initialized", () => {
+//   //     setLdClient(client)
+//   //   })
+//   // }
+
+//   // const allFlags = ldClient ? ldClient.allFlags() : flags
+
+//   return (
+//     <Provider
+//       value={{
+//         // ldClient,
+//         visitiordId: "oooo"+ldData.visitorId,
+//         flags: camelCaseKeys(ldData.flags),
+//       }}
+//     >
+//       {children}
+//     </Provider>
+//   )
+// }
+
+// export { Consumer, ProviderWithState as Provider }

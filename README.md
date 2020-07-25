@@ -2,22 +2,36 @@
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
+Opinionated server-side launchdarkly feature flags for nextjs
+
 ## Usage
 ```
 npm install @carforyou/ld
 ```
 
-Example
+Include the middleware to fetch flags server-side
 
 ```
-import { Provider } from "@carforyou/ld"
+import { ldMiddleware }
 
-...
+const ldRequestHandler = ldMiddleware(LAUNCH_DARKLY_SDK_KEY)
+const server = express()
+server.use(ldRequestHandler).listen()
+```
 
-<Provider ldClientId={LAUNCH_DARKLY_ID} ldUser={ldUser} flags={flags}>
-    <Components />
-</Provider>
+In `_app`, pass `req.ldData` to the LDPRovider
+```
+import { LDProvider } from "@carforyou/ld"
 
+static async getInitialProps({ req }) {
+  return { ldData: req.ldData }
+}
+
+render() {
+  <LDProvider ldClientId={LAUNCH_DARKLY_ID} initialLDData={ldData}>
+    ...
+  </LDProvider>
+}
 ```
 
 ## Development
