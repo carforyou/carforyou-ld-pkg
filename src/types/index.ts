@@ -1,3 +1,5 @@
+import { LDFlagSet } from "launchdarkly-node-server-sdk"
+
 export interface LDUser {
   key: string
   email?: string
@@ -5,6 +7,7 @@ export interface LDUser {
 }
 
 export interface LDData {
-  visitorId: string
   user: LDUser
+  allFlags: LDFlagSet
+  isBot: boolean
 }

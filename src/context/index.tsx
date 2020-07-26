@@ -2,7 +2,6 @@ import React, { ReactNode, FC, createContext, useEffect, useMemo } from "react"
 import LDClient, { LDFlagSet } from "launchdarkly-js-client-sdk"
 import { LDData } from "../types"
 
-
 import { camelCaseKeys } from "../lib/utils"
 
 interface Props {
@@ -24,8 +23,8 @@ const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   const user = ldData.user
 
   useEffect(() => {
-    // only enable client-side instrumentation when a user is passed
-    if (Object.keys(user).length) {
+    // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
+    if (!ldData.isBot) {
       const client = LDClient.initialize(clientId, ldData.user)
       client.on("ready", () => {
         // forces sending analytics events used for client-side experiments

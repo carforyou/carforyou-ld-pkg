@@ -1,7 +1,7 @@
 import LaunchDarkly, { LDClient } from "launchdarkly-node-server-sdk"
 import { Application, Request, Response } from "express"
 
-import { LDUser } from "./types"
+import { LDUser, LDData } from "./types"
 
 const createLDClient = async (sdkKey): Promise<LDClient> => {
   const ldClient = LaunchDarkly.init(sdkKey)
@@ -80,10 +80,12 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
     const ldClient = await getLDClient(app, sdkKey)
     const allFlags = await ldClient.allFlagsState(user)
 
-    req.ldData = {
+    const ldData: LDData = {
       user,
       allFlags: allFlags.toJSON(),
+      isBot,
     }
+    req.ldData = ldData
 
     next()
   }
