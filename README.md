@@ -35,6 +35,27 @@ render() {
 }
 ```
 
+Then in your components
+```
+import React from "react"
+import { useFlags } from "@carforyou/ld"
+
+const AppHead: FC = () => {
+  const flags = useFlags()
+  return flags.exampleFlag ? "on" : "off"
+}
+```
+
+Alternatively, you can also use the context and get hold of some additional information
+```
+import React, { useContext } from "react"
+import { LDContext } from "@carforyou/ld"
+
+const AppHead: FC = () => {
+  const { flags, user, isBot } = useContext()
+}
+```
+
 ## Development
 ```
 npm run build
