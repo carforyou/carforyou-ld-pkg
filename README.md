@@ -20,7 +20,7 @@ const server = express()
 server.use(ldRequestHandler).listen()
 ```
 
-In `_app`, pass `req.ldData` to the LDProvider
+In `_app`, pass `req.ldData` to the LDProvider. Feature flags will be readily available across requests and page transitions.
 ```
 import { LDProvider } from "@carforyou/ld"
 

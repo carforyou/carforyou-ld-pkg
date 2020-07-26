@@ -3,3 +3,8 @@ export interface LDUser {
   email?: string
   anonymous?: boolean
 }
+
+export interface LDData {
+  visitorId: string
+  user: LDUser
+}
