@@ -1,6 +1,6 @@
 import React, { ReactNode, FC, createContext, useEffect, useMemo } from "react"
 import LDClient, { LDFlagSet } from "launchdarkly-js-client-sdk"
-import { LDData } from "../types"
+import { LDData, LDUser } from "../types"
 
 import { camelCaseKeys } from "../lib/utils"
 
@@ -12,7 +12,8 @@ interface Props {
 
 export interface Context {
   flags?: LDFlagSet
-  user?: string
+  user?: LDUser
+  isBot: boolean
 }
 
 const LDContext = createContext<Context>()
@@ -20,12 +21,12 @@ const LDContext = createContext<Context>()
 const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client
   const ldData = useMemo(() => initialLDData, [])
-  const user = ldData.user
+  const { user, isBot, allFlags } = ldData
 
   useEffect(() => {
     // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
-    if (!ldData.isBot) {
-      const client = LDClient.initialize(clientId, ldData.user)
+    if (!isBot) {
+      const client = LDClient.initialize(clientId, user)
       client.on("ready", () => {
         // forces sending analytics events used for client-side experiments
         client.allFlags()
@@ -33,10 +34,11 @@ const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
     }
   }, [])
 
-  const flags = camelCaseKeys(ldData.allFlags)
-
+  const flags = camelCaseKeys(allFlags)
   return (
-    <LDContext.Provider value={{ flags, user }}>{children}</LDContext.Provider>
+    <LDContext.Provider value={{ flags, user, isBot }}>
+      {children}
+    </LDContext.Provider>
   )
 }
 
