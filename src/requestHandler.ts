@@ -70,7 +70,7 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
     }
 
     if (
-      [/^\/_next/, /^\/static/, /\.\w+$/].find((matcher) => url.match(matcher))
+      [/^\/_next/, /^\/static/, /^\/public/, /\.\w+$/].find((matcher) => url.match(matcher))
     ) {
       return next()
     }
