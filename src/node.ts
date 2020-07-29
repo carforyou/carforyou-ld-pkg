@@ -1,5 +1,8 @@
 import getLDRequestHandler from "./requestHandler"
-export { getLDRequestHandler }
+
+export default {
+  getLDRequestHandler
+}
 
 // Additionally, export all components
 export * from "./index"
