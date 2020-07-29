@@ -1,6 +1,6 @@
 if [ -z "$1" ]; then
   echo "Usage:"
-  echo "  npm run link <relative_path_to_project>"
+  echo "  npm run link -- <relative_path_to_project>"
 fi
 
 PROJECT_PATH="$1"

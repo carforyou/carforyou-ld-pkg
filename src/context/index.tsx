@@ -1,69 +1,45 @@
-import React, { FC, createContext, useState, useEffect } from "react"
-import {
-  LDClient,
-  LDFlagSet,
-  initialize as ldClientInitialize,
-} from "launchdarkly-js-client-sdk"
-import { LDUser } from "../types/ldUser"
+import React, { ReactNode, FC, createContext, useEffect, useMemo } from "react"
+import LDClient, { LDFlagSet } from "launchdarkly-js-client-sdk"
+import { LDData, LDUser } from "../types"
 
 import { camelCaseKeys } from "../lib/utils"
 
-export interface LDContext {
-  flags: LDFlagSet
-  ldClient?: LDClient
+interface Props {
+  initialLDData: LDData
+  clientId: string
+  children: ReactNode
 }
 
-export const context = createContext<LDContext>({
-  flags: {},
-  ldClient: undefined,
-})
-const { Provider, Consumer } = context
-
-interface ProviderProps {
+export interface Context {
   flags?: LDFlagSet
-  ldClientId: string
-  ldUser: LDUser
+  user?: LDUser
+  isBot: boolean
 }
 
-const initLDClient = (
-  clientSideID: string,
-  ldUser: LDUser,
-  flags: LDFlagSet
-): LDClient => {
-  return flags
-    ? ldClientInitialize(clientSideID, ldUser, { bootstrap: flags })
-    : ldClientInitialize(clientSideID, ldUser)
-}
+const LDContext = createContext<Context>()
 
-const ProviderWithState: FC<ProviderProps> = ({
-  flags,
-  ldClientId,
-  ldUser,
-  children,
-}) => {
-  const [ldClient, setLdClient] = useState<LDContext>()
+const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
+  // persists the data initialized server-side on the client
+  const ldData = useMemo(() => initialLDData, [])
+  const { user, isBot, allFlags } = ldData
 
   useEffect(() => {
-    if (ldUser) {
-      const client = initLDClient(ldClientId, ldUser, flags)
-      client.on("initialized", () => {
-        setLdClient(client)
+    // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
+    if (!isBot) {
+      const client = LDClient.initialize(clientId, user)
+      client.on("ready", () => {
+        // forces sending analytics events used for client-side experiments
+        client.allFlags()
       })
     }
-  }, [ldClientId, ldUser?.key])
+  }, [])
 
-  const allFlags = ldClient ? ldClient.allFlags() : flags
-
+  const flags = camelCaseKeys(allFlags)
   return (
-    <Provider
-      value={{
-        ldClient,
-        flags: camelCaseKeys(allFlags),
-      }}
-    >
+    <LDContext.Provider value={{ flags, user, isBot }}>
       {children}
-    </Provider>
+    </LDContext.Provider>
   )
 }
 
-export { Consumer, ProviderWithState as Provider }
+export { LDContext, LDProvider }

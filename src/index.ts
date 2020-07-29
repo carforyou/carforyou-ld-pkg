@@ -1,4 +1,5 @@
-export { Consumer, Provider } from "./context/index"
-export { useFlags, useLDClient } from "./hooks/index"
-export { withLD, WithLDProps } from "./withLD"
-export { LDUser } from "./types/ldUser"
+import { LDProvider, LDContext } from "./context/index"
+import { useFlags } from "./hooks/index"
+import { LDUser, LDData } from "./types"
+
+export { LDProvider, LDContext, useFlags, LDUser, LDData }
