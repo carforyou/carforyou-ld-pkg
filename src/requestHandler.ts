@@ -75,15 +75,18 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
 
     const isBot = matchesBotUserAgent(headers)
     const user = getLDUser({ req, res, isBot })
-    const ldClient = await getLDClient(app, sdkKey)
-    const allFlags = await ldClient.allFlagsState(user)
 
-    const ldData: LDData = {
-      user,
-      allFlags: allFlags.toJSON(),
-      isBot,
+    if (user) {
+      const ldClient = await getLDClient(app, sdkKey)
+      const allFlags = await ldClient.allFlagsState(user)
+
+      const ldData: LDData = {
+        user,
+        allFlags: allFlags.toJSON(),
+        isBot,
+      }
+      req.ldData = ldData
     }
-    req.ldData = ldData
 
     next()
   }
