@@ -59,7 +59,7 @@ type GetLDUser = ({
 
 const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
   return async (req, res, next) => {
-    const { app, pathname, headers } = req
+    const { app, path, headers } = req
 
     if (!sdkKey) {
       // eslint-disable-next-line no-console
@@ -69,7 +69,7 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
       return next()
     }
 
-    if ([/^\/_next/, /\.\w{1,4}$/].find((matcher) => pathname.match(matcher))) {
+    if ([/^\/_next/, /\.\w{1,4}$/].find((matcher) => path.match(matcher))) {
       return next()
     }
 
