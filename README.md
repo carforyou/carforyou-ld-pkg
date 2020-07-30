@@ -11,13 +11,15 @@ npm install @carforyou/ld
 
 Include the express middleware in your custom server to fetch flags server-side. Pass a function `getLDUser` in which you return the LD user object. For example, you could read the user id from an auth token and pass it as the key or generate uuids for public users.
 ```
-import { ldMiddleware }
+import { getLDRequestHandler } from "@carforyou/ld"
 
 const getLDUser = (req, res, isBot) => ({ key: "user@example.com", anonymous: false })
-const ldRequestHandler = ldMiddleware(LAUNCH_DARKLY_SDK_KEY, getLDUser)
+const ldRequestHandler = getLDRequestHandler(LAUNCH_DARKLY_SDK_KEY, getLDUser)
 
 const server = express()
-server.use(ldRequestHandler).listen()
+server.use(ldRequestHandler)
+      .use(nextHandler)
+      .listen()
 ```
 
 In `_app`, pass `req.ldData` to the LDProvider. Feature flags are statically available accross requests and page transitions.
