@@ -5,7 +5,7 @@ orbs:
 
 docker: &DOCKER_NODE
   docker:
-    - image: circleci/node:10.22
+    - image: cimg/node:lts
 
 jobs:
   install:
