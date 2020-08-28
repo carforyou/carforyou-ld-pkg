@@ -30,7 +30,7 @@
     "launchdarkly-node-server-sdk": "^5.13.3"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "2.0.0",
+    "@carforyou/eslint-config": "2.0.2",
     "@carforyou/pika-plugin-build-standalone-node": "1.0.3",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.0",
