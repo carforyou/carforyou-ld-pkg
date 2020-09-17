@@ -57,17 +57,14 @@ type GetLDUser = ({
   isBot: boolean
 }) => LDUser
 
-const defaultExcludeRoutes = (path: string): boolean => {
-  const nextPathMatch = path.match(/^\/_next/)
-  const assetMatch = path.match(/\.\w{1,4}$/)
-  return !!nextPathMatch && !!assetMatch
+export const isNotApplicationRoute = (path) => {
+  const isInNextPath = path.match(/^\/_next\/(?!data)/)
+  const isFileNotInNextDataPath = path.match(/^\/_next\/(?!data)/)
+
+  return !!isInNextPath && !!isFileNotInNextDataPath
 }
 
-const getLDRequestHandler = (
-  sdkKey: string,
-  getLDUser: GetLDUser,
-  excludeRoutes: (path: string) => boolean = defaultExcludeRoutes
-) => {
+const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
   return async (req, res, next) => {
     const { app, path, headers } = req
 
@@ -79,7 +76,7 @@ const getLDRequestHandler = (
       return next()
     }
 
-    if (excludeRoutes(path)) {
+    if (isNotApplicationRoute(path)) {
       return next()
     }
 
