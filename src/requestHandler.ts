@@ -79,7 +79,7 @@ const getLDRequestHandler = (
       return next()
     }
 
-    if (excludeRoutes(req.path)) {
+    if (excludeRoutes(path)) {
       return next()
     }
 
