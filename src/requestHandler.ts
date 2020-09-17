@@ -57,7 +57,17 @@ type GetLDUser = ({
   isBot: boolean
 }) => LDUser
 
-const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
+const defaultExcludeRoutes = (path: string): boolean => {
+  const nextPathMatch = path.match(/^\/_next/)
+  const assetMatch = path.match(/\.\w{1,4}$/)
+  return !!nextPathMatch && !!assetMatch
+}
+
+const getLDRequestHandler = (
+  sdkKey: string,
+  getLDUser: GetLDUser,
+  excludeRoutes: (path: string) => boolean = defaultExcludeRoutes
+) => {
   return async (req, res, next) => {
     const { app, path, headers } = req
 
@@ -69,7 +79,7 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
       return next()
     }
 
-    if ([/^\/_next/, /\.\w{1,4}$/].find((matcher) => path.match(matcher))) {
+    if (excludeRoutes(req.path)) {
       return next()
     }
 
