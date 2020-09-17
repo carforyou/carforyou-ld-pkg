@@ -57,6 +57,13 @@ type GetLDUser = ({
   isBot: boolean
 }) => LDUser
 
+export const isNotApplicationRoute = (path) => {
+  const isInNextPath = path.match(/^\/_next\/(?!data)/)
+  const isFileNotInNextDataPath = path.match(/^\/_next\/(?!data)/)
+
+  return !!isInNextPath && !!isFileNotInNextDataPath
+}
+
 const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
   return async (req, res, next) => {
     const { app, path, headers } = req
@@ -69,7 +76,7 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
       return next()
     }
 
-    if ([/^\/_next/, /\.\w{1,4}$/].find((matcher) => path.match(matcher))) {
+    if (isNotApplicationRoute(path)) {
       return next()
     }
 
