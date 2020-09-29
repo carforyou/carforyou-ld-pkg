@@ -59,7 +59,7 @@ type GetLDUser = ({
 
 export const isNotApplicationRoute = (path) => {
   const isInNextPath = path.match(/^\/_next\/(?!data)/)
-  const isFileNotInNextDataPath = path.match(/^\/_next\/(?!data)/)
+  const isFileNotInNextDataPath = path.match(/(?<!\/_next\/data\/.*)\.\w{1,4}$/)
 
   return !!isInNextPath && !!isFileNotInNextDataPath
 }
