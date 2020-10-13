@@ -17,7 +17,7 @@
   },
   "author": "CAR FOR YOU",
   "license": "MIT",
-  "homepage": "https://github.com/carforyou/ld-pkg#readme",
+  "homepage": "https://github.com/carforyou/carforyou-ld-pkg#readme",
   "peerDependencies": {
     "react": ">=16.0.0",
     "express": ">=4.0.0"
