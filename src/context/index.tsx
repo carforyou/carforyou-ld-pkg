@@ -1,5 +1,6 @@
-import React, { ReactNode, FC, createContext, useEffect, useMemo } from "react"
-import { initialize, LDFlagSet, LDClient } from "launchdarkly-js-client-sdk"
+import React, { createContext, FC, ReactNode, useEffect, useMemo } from "react"
+import { initialize, LDClient, LDFlagSet } from "launchdarkly-js-client-sdk"
+
 import { LDData, LDUser } from "../types"
 
 import { camelCaseKeys } from "../lib/utils"

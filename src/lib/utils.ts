@@ -1,5 +1,5 @@
-import { LDFlagSet } from "launchdarkly-js-client-sdk"
 import camelCase from "lodash.camelcase"
+import { LDFlagSet } from "launchdarkly-js-client-sdk"
 
 export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   const flags: LDFlagSet = {}

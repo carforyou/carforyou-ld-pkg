@@ -1,7 +1,7 @@
 import LaunchDarkly, { LDClient } from "launchdarkly-node-server-sdk"
 import { Application, Request, Response } from "express"
 
-import { LDUser, LDData } from "./types"
+import { LDData, LDUser } from "./types"
 
 const createLDClient = async (sdkKey): Promise<LDClient> => {
   const ldClient = LaunchDarkly.init(sdkKey)
