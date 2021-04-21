@@ -23,7 +23,7 @@ const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client
   const ldData = useMemo(() => initialLDData, [])
   const { user, isBot, allFlags = {} } = ldData || {}
-  const hasConsent = user.key !== "noConsent"
+  const hasConsent = user && user.key !== "noConsent"
 
   useEffect(() => {
     // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
