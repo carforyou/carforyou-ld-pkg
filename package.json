@@ -19,8 +19,8 @@
   "license": "MIT",
   "homepage": "https://github.com/carforyou/carforyou-ld-pkg#readme",
   "peerDependencies": {
-    "react": ">=16.0.0",
-    "express": ">=4.0.0"
+    "express": ">=4.0.0",
+    "react": ">=16.0.0"
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.1",
