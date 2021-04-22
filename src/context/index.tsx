@@ -15,6 +15,7 @@ export interface Context {
   flags?: LDFlagSet
   user?: LDUser
   isBot: boolean
+  initializeClient: boolean
 }
 
 const LDContext = createContext<Context>()
@@ -22,12 +23,11 @@ const LDContext = createContext<Context>()
 const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client
   const ldData = useMemo(() => initialLDData, [])
-  const { user, isBot, allFlags = {} } = ldData || {}
-  const hasConsent = user && user.key !== "noConsent"
+  const { user, isBot, initializeClient = true, allFlags = {} } = ldData || {}
 
   useEffect(() => {
     // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
-    if (!isBot && hasConsent) {
+    if (!isBot && initializeClient) {
       const client: LDClient = initialize(clientId, user)
       client.on("ready", () => {
         // forces sending analytics events used for client-side experiments
