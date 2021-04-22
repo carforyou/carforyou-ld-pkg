@@ -12,10 +12,10 @@ interface Props {
 }
 
 export interface Context {
+  isBot: boolean
   flags?: LDFlagSet
   user?: LDUser
-  isBot: boolean
-  initializeClient: boolean
+  initializeClient?: boolean
 }
 
 const LDContext = createContext<Context>()
