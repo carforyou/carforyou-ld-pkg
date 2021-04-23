@@ -15,10 +15,9 @@ export interface Context {
   isBot: boolean
   flags?: LDFlagSet
   user?: LDUser
-  initializeClient?: boolean
 }
 
-const LDContext = createContext<Context>()
+const LDContext = createContext<Context>(null)
 
 const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client

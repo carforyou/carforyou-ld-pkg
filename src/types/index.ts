@@ -10,4 +10,5 @@ export interface LDData {
   user: LDUser
   allFlags: LDFlagSet
   isBot: boolean
+  initializeClient?: boolean
 }

@@ -1,6 +1,7 @@
 import React from "react"
-import { render } from "@testing-library/react"
 import { initialize } from "launchdarkly-js-client-sdk"
+import { render } from "@testing-library/react"
+
 import { LDProvider } from ".."
 
 describe("launch darkly provider", () => {
@@ -20,7 +21,9 @@ describe("launch darkly provider", () => {
           allFlags: {},
           isBot: false,
         }}
-      />
+      >
+        <div />
+      </LDProvider>
     )
 
     expect(initialize).toBeCalledTimes(1)
@@ -35,7 +38,9 @@ describe("launch darkly provider", () => {
           allFlags: {},
           isBot: true,
         }}
-      />
+      >
+        <div />
+      </LDProvider>
     )
 
     expect(initialize).toBeCalledTimes(0)
@@ -51,7 +56,9 @@ describe("launch darkly provider", () => {
           isBot: false,
           initializeClient: true,
         }}
-      />
+      >
+        <div />
+      </LDProvider>
     )
 
     expect(initialize).toBeCalledTimes(1)
@@ -67,7 +74,9 @@ describe("launch darkly provider", () => {
           isBot: false,
           initializeClient: false,
         }}
-      />
+      >
+        <div />
+      </LDProvider>
     )
 
     expect(initialize).toBeCalledTimes(0)
