@@ -1,9 +1,6 @@
 {
-  "extends": [
-    "config:base",
-    ":preserveSemverRanges"
-  ],
+  "extends": ["config:base", ":preserveSemverRanges"],
   "prConcurrentLimit": 5,
-  "reviewers": ["team:frontend"]
+  "reviewers": ["team:frontend"],
+  "supportPolicy": ["lts_latest"]
 }
-
