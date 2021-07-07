@@ -4,7 +4,11 @@ import { Application, Request, Response } from "express"
 import { LDData, LDUser } from "./types"
 
 const createLDClient = async (sdkKey): Promise<LDClient> => {
-  const ldClient = LaunchDarkly.init(sdkKey)
+  const ldClient = LaunchDarkly.init(sdkKey, {
+    logger: LaunchDarkly.basicLogger({
+      level: "warn",
+    }),
+  })
   return ldClient.waitForInitialization()
 }
 
