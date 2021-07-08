@@ -8,8 +8,7 @@
     "lint": "eslint --ext ts,js,tsx,jsx,json .",
     "format": "npm run lint -- --fix",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
-    "link": "sh ./bin/link.sh"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

@@ -63,11 +63,11 @@ const AppHead: FC = () => {
 npm run build
 ```
 
-You can link your local npm package to integrate it with any local project:
+You can link a locally built package to integrate it with any project during development:
+
 ```
-npm run link -- <relative_path_to_project>
+npm link ../carforyou-ld-pkg/pkg
 ```
-This ensures that projects react is linked back to build package and prevents errors due to duplicate react instances.
 
 ## Release a new version
 New versions are released on the ci using semantic-release as soon as you merge into master. Please
