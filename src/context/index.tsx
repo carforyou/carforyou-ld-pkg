@@ -1,4 +1,5 @@
-import React, { createContext, FC, ReactNode, useEffect, useMemo } from "react"
+import useDeepCompareEffect from "use-deep-compare-effect"
+import React, { createContext, FC, ReactNode, useMemo } from "react"
 import { initialize, LDClient, LDFlagSet } from "launchdarkly-js-client-sdk"
 
 import { LDData, LDUser } from "../types"
@@ -21,10 +22,10 @@ const LDContext = createContext<Context>(null)
 
 const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client
-  const ldData = useMemo(() => initialLDData, [])
+  const ldData = useMemo(() => initialLDData, [initialLDData])
   const { user, isBot, initializeClient = true, allFlags = {} } = ldData || {}
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
     if (!isBot && initializeClient) {
       const client: LDClient = initialize(clientId, user)
@@ -33,7 +34,7 @@ const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
         client.allFlags()
       })
     }
-  }, [])
+  }, [clientId, initializeClient, isBot, user])
 
   const flags = camelCaseKeys(allFlags)
   return (
