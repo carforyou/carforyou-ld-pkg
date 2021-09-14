@@ -23,7 +23,7 @@ const LDContext = createContext<Context>(null)
 const LDProvider: FC<Props> = ({ initialLDData, clientId, children }) => {
   // persists the data initialized server-side on the client
   const ldData = useMemo(() => initialLDData, [initialLDData])
-  const { user, isBot, initializeClient = true, allFlags = {} } = ldData || {}
+  const { user = { key: null }, isBot, initializeClient = true, allFlags = {} } = ldData || {}
 
   useDeepCompareEffect(() => {
     // only enable client-side instrumentation for non-bots to prevent unnecessary MAU
