@@ -32,7 +32,7 @@
     "uuidv4": "^6.2.0"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "3.1.10",
+    "@carforyou/eslint-config": "3.1.11",
     "@carforyou/pika-plugin-build-standalone-node": "1.0.4",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.0",
