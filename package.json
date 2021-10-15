@@ -23,6 +23,7 @@
     "react": ">=16.0.0"
   },
   "dependencies": {
+    "@babel/core": "^7.15.8",
     "@types/node": "^14.14.31",
     "hoist-non-react-statics": "^3.3.1",
     "launchdarkly-js-client-sdk": "^2.16.0",
@@ -33,7 +34,7 @@
   },
   "devDependencies": {
     "@carforyou/eslint-config": "3.1.13",
-    "@carforyou/pika-plugin-build-standalone-node": "1.0.4",
+    "@carforyou/pika-plugin-build-standalone-node": "1.0.5",
     "@pika/pack": "^0.5.0",
     "@pika/plugin-build-node": "^0.9.0",
     "@pika/plugin-build-web": "^0.9.0",
