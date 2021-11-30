@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@carforyou/eslint-config": "3.1.21",
-    "@carforyou/pika-plugin-build-standalone-node": "1.0.9",
+    "@carforyou/pika-plugin-build-standalone-node": "1.0.10",
     "@pika/pack": "0.5.0",
     "@pika/plugin-build-node": "0.9.2",
     "@pika/plugin-build-web": "0.9.2",
