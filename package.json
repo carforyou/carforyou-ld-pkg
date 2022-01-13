@@ -30,7 +30,7 @@
     "uuidv4": "^6.2.0"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "4.0.3",
+    "@carforyou/eslint-config": "4.0.4",
     "@testing-library/react": "12.1.2",
     "@types/jest": "27.4.0",
     "@types/react": "17.0.38",
