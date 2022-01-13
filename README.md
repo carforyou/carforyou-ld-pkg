@@ -65,7 +65,7 @@ npm run build
 
 You can link your local npm package to integrate it with any local project:
 ```
-npm run link -- <relative_path_to_project>
+npm link ../carforyou-ld-pkg
 ```
 This ensures that projects react is linked back to build package and prevents errors due to duplicate react instances.
 

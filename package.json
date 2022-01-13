@@ -4,12 +4,11 @@
   "description": "CAR FOR YOU LaunchDarkly",
   "scripts": {
     "version": "npm run build",
-    "build": "pika build",
+    "build": "rimraf pkg && rollup -c && tsc --outDir pkg/types --emitDeclarationOnly --declaration",
     "lint": "eslint --ext ts,js,tsx,jsx,json .",
     "format": "npm run lint -- --fix",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
-    "link": "sh ./bin/link.sh"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,7 +19,7 @@
   "homepage": "https://github.com/carforyou/carforyou-ld-pkg#readme",
   "peerDependencies": {
     "express": ">=4.0.0",
-    "react": ">=16.0.0"
+    "react": ">=17.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.15.8",
@@ -34,40 +33,27 @@
   },
   "devDependencies": {
     "@carforyou/eslint-config": "4.0.3",
-    "@carforyou/pika-plugin-build-standalone-node": "1.0.13",
-    "@pika/pack": "0.5.0",
-    "@pika/plugin-build-node": "0.9.2",
-    "@pika/plugin-build-web": "0.9.2",
-    "@pika/plugin-ts-standard-pkg": "0.9.2",
     "@testing-library/react": "12.1.2",
     "@types/jest": "27.4.0",
     "@types/react": "17.0.38",
     "eslint-plugin-react-hooks": "4.3.0",
     "express": "4.17.2",
+    "@rollup/plugin-commonjs": "21.0.1",
+    "@rollup/plugin-node-resolve": "13.0.6",
+    "@rollup/plugin-typescript": "8.3.0",
     "jest": "27.4.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "rimraf": "3.0.2",
     "semantic-release": "17.4.7",
     "ts-jest": "27.1.2",
     "typescript": "4.5.4"
   },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "tsconfig": "tsconfig.pika.json"
-        }
-      ],
-      [
-        "@pika/plugin-build-web"
-      ],
-      [
-        "@pika/plugin-build-node"
-      ],
-      [
-        "@carforyou/pika-plugin-build-standalone-node"
-      ]
-    ]
-  }
+  "sideEffects": false,
+  "main": "pkg/cjs/index.js",
+  "module": "pkg/esm/index.js",
+  "types": "pkg/types/index.d.ts",
+  "files": [
+    "pkg/**/*"
+  ]
 }
