@@ -29,8 +29,7 @@
     "launchdarkly-js-client-sdk": "^2.16.0",
     "launchdarkly-node-server-sdk": "^6.0.0",
     "lodash.camelcase": "^4.3.0",
-    "use-deep-compare-effect": "^1.6.1",
-    "uuidv4": "^6.2.0"
+    "use-deep-compare-effect": "^1.6.1"
   },
   "devDependencies": {
     "@carforyou/eslint-config": "4.0.4",
