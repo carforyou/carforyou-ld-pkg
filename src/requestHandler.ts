@@ -1,11 +1,11 @@
-import LaunchDarkly, { LDClient } from "launchdarkly-node-server-sdk"
+import { init, basicLogger, LDClient } from "launchdarkly-node-server-sdk"
 import { Application, Request, Response } from "express"
 
 import { LDData, LDUser } from "./types"
 
 const createLDClient = async (sdkKey): Promise<LDClient> => {
-  const ldClient = LaunchDarkly.init(sdkKey, {
-    logger: LaunchDarkly.basicLogger({
+  const ldClient = init(sdkKey, {
+    logger: basicLogger({
       level: "warn",
     }),
   })
@@ -61,7 +61,7 @@ type GetLDUser = ({
   isBot: boolean
 }) => LDUser
 
-export const isNotApplicationRoute = (path) => {
+const isNotApplicationRoute = (path) => {
   const isInNextPath = path.match(/^\/_next\/(?!data)/)
   const isFileNotInNextDataPath = path.match(/(?<!\/_next\/data\/.*)\.\w{1,4}$/)
 
@@ -103,4 +103,4 @@ const getLDRequestHandler = (sdkKey: string, getLDUser: GetLDUser) => {
   }
 }
 
-export default getLDRequestHandler
+export { getLDRequestHandler }
