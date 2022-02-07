@@ -40,7 +40,7 @@
     "@pika/plugin-ts-standard-pkg": "0.9.2",
     "@testing-library/react": "12.1.2",
     "@types/jest": "27.4.0",
-    "@types/react": "17.0.38",
+    "@types/react": "17.0.39",
     "eslint-plugin-react-hooks": "4.3.0",
     "express": "4.17.2",
     "jest": "27.4.7",
