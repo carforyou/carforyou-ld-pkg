@@ -43,7 +43,7 @@
     "@types/react": "17.0.39",
     "eslint-plugin-react-hooks": "4.3.0",
     "express": "4.17.2",
-    "jest": "27.5.0",
+    "jest": "27.5.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "semantic-release": "19.0.2",
