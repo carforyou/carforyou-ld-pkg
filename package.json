@@ -32,7 +32,7 @@
     "use-deep-compare-effect": "^1.6.1"
   },
   "devDependencies": {
-    "@carforyou/eslint-config": "4.0.12",
+    "@carforyou/eslint-config": "4.0.13",
     "@carforyou/pika-plugin-build-standalone-node": "1.0.13",
     "@pika/pack": "0.5.0",
     "@pika/plugin-build-node": "0.9.2",
