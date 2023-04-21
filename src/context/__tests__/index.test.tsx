@@ -26,7 +26,7 @@ describe("launch darkly provider", () => {
       </LDProvider>
     )
 
-    expect(initialize).toBeCalledTimes(1)
+    expect(initialize).toHaveBeenCalledTimes(1)
   })
 
   it("does not initialize the client for bots", () => {
@@ -43,7 +43,7 @@ describe("launch darkly provider", () => {
       </LDProvider>
     )
 
-    expect(initialize).toBeCalledTimes(0)
+    expect(initialize).toHaveBeenCalledTimes(0)
   })
 
   it("initializes the client when initializeClient flag is true", () => {
@@ -61,7 +61,7 @@ describe("launch darkly provider", () => {
       </LDProvider>
     )
 
-    expect(initialize).toBeCalledTimes(1)
+    expect(initialize).toHaveBeenCalledTimes(1)
   })
 
   it("does not initialize the client when initializeClient flag is false", () => {
@@ -79,6 +79,6 @@ describe("launch darkly provider", () => {
       </LDProvider>
     )
 
-    expect(initialize).toBeCalledTimes(0)
+    expect(initialize).toHaveBeenCalledTimes(0)
   })
 })
