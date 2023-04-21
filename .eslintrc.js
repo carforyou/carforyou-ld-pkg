@@ -4,7 +4,9 @@ module.exports = {
     {
       files: ["*"],
       rules: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "no-restricted-imports": "off",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "react-hooks/exhaustive-deps": [
           "error",
           {
