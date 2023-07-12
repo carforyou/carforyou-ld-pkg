@@ -12,18 +12,26 @@
       "automerge": true
     },
     {
-      "matchDatasources": ["docker", "final"],
-      "matchPackageNames": ["node", "@types/node", "cimg/node"],
+      "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "automerge": true,
-      "schedule": null
+      "schedule": null,
+      "automerge": true
     },
     {
-      "matchPackagePatterns": ["^@carforyou\/.*"],
+      "matchPackageNames": [
+        "node",
+        "@types/node",
+        "cimg/node",
+        "circleci/node"
+      ],
+      "matchManagers": ["dockerfile", "npm", "nvm", "circleci"],
+      "versioning": "node",
+      "schedule": null,
+      "groupName": "node (lts-only)"
+    },
+    {
+      "matchPackagePatterns": ["^@carforyou/.*"],
       "schedule": null
     }
-  ],
-  "node": {
-    "supportPolicy": ["lts_latest"]
-  }
+  ]
 }
