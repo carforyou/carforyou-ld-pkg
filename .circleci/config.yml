@@ -5,7 +5,7 @@ orbs:
 
 docker: &DOCKER_NODE
   docker:
-    - image: cimg/node:18.18.2
+    - image: cimg/node:20.9.0
 
 jobs:
   install:
